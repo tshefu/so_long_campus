@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 10:45:47 by vschneid          #+#    #+#             */
-/*   Updated: 2023/08/10 21:22:17 by vschneid         ###   ########.fr       */
+/*   Created: 2023/01/22 14:15:14 by vschneid          #+#    #+#             */
+/*   Updated: 2023/08/27 22:16:43 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_putstr(char *s)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	while (str[len] != '\0')
-		len++;
-	return (len);
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar(s[i]);
+		i++;
+	}
+	return (i);
 }

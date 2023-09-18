@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_hexptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 10:45:47 by vschneid          #+#    #+#             */
-/*   Updated: 2023/08/10 21:22:17 by vschneid         ###   ########.fr       */
+/*   Created: 2023/01/16 17:41:38 by vschneid          #+#    #+#             */
+/*   Updated: 2023/08/27 22:19:31 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+static int	printf_strlen(unsigned long long num)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	while (str[len] != '\0')
-		len++;
-	return (len);
+	i = 0;
+	if (num <= 15)
+		return (1);
+	while (num != 0)
+	{
+		i++;
+		num = num / 16;
+	}
+	return (i);
+}
+
+int	ft_hexptr(unsigned long long num)
+{
+	if (num == 0)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+	ft_putchar('0');
+	ft_putchar('x');
+	ft_printhex_lower(num);
+	return (printf_strlen(num) + 2);
 }

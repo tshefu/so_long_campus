@@ -5,34 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/29 11:11:57 by vschneid          #+#    #+#             */
-/*   Updated: 2023/07/23 13:41:40 by vschneid         ###   ########.fr       */
+/*   Created: 2023/08/08 17:12:06 by vschneid          #+#    #+#             */
+/*   Updated: 2023/09/16 19:28:52 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../incl/so_long.h"
 
-int main(int argc, char **argv)
+void	add_map_values_struct(t_game *game, char *file)
 {
-    t_game *game;
-    int file;
+	game->map->playercounter = 0;
+	game->map->exitcounter = 0;
+	game->map->collcounter = 0;
+	game->moves = 1;
+	game->map->lines = count_lines(file, game);
+}
 
-    if (argc == 1)
-        game_error(13, NULL);
-    file = mapfilechecker(argv[1]);
-    if (argc != 2 || file == -1)
-        game_error(13, NULL);
-    game = initialise_struct(argv[1]);
-    game->mlxptr = mlx_init();
-    if (!game->mlxptr)
-        game_error(13, NULL); 
-    display_images(game);
-    game->window = mlx_new_window(game->mlxptr,
-                        game->graphicpixels * game->map->width,
-                        game->graphicpixels * game->map->height, "SO_LONG");
-    mlx_loop_hook(game->mlxptr, display_frame, game);
-    mlx_hook(game->window, KeyPress, KeyPressMask, keypress, game);
-    mlx_hook(game->window, DestroyNotify, NoEventMask, xclick, game);
-    mlx_loop(game->mlxptr);
-    return (0);
+t_game	*initialise_struct(char *file)
+{
+	t_game	*game;
+
+	game = ft_calloc(1, sizeof(t_game));
+	if (!game)
+		malloc_error(3, game);
+	game->map = ft_calloc(1, sizeof(t_map));
+	if (!game->map)
+		malloc_error(3, game);
+	add_map_values_struct(game, file);
+	initialise_map(file, game);
+	return (game);
+}
+
+int	main(int argc, char **argv)
+{
+	t_game		*game;
+
+	if ((ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".ber", 4))
+		|| argc != 2)
+		startup_error(1, NULL);
+	access_check_ber(argv[1]);
+	access_check_xpm();
+	game = initialise_struct(argv[1]);
+	game->mlxptr = mlx_init();
+	if (!game->mlxptr)
+		mlx_error(NULL);
+	display_image(game);
+	game->window = mlx_new_window(game->mlxptr,
+			(game->graphicpixels * game->map->width),
+			(game->graphicpixels * game->map->height), "RAWE CEEK");
+	mlx_loop_hook(game->mlxptr, display_frame, game);
+	mlx_hook(game->window, KeyPress, KeyPressMask, keypress, game);
+	mlx_hook(game->window, DestroyNotify, NoEventMask, xklick, game);
+	mlx_loop(game->mlxptr);
+	return (0);
 }

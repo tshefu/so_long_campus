@@ -5,79 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 12:04:09 by vschneid          #+#    #+#             */
-/*   Updated: 2023/07/31 21:47:47 by vschneid         ###   ########.fr       */
+/*   Created: 2023/08/08 17:09:55 by vschneid          #+#    #+#             */
+/*   Updated: 2023/09/18 12:27:59 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../incl/so_long.h"
 
-int keypress(int key, t_game *game)
+int	keypress(int key, t_game *game)
 {
-    int plpox;
-    int plpoy;
+	int	plpox;
+	int	plpoy;
 
-    plpox = game->map->plpox;
-    plpoy = game->map->plpoy;
-    if (key == ESC)
-    // free game
-    if ((key == W || key == UP) && game->map->map[plpoy - 1][plpox] != 1)
-        game->map->plpoy -= 1;
-    if ((key == S || key == DOWN) && game->map->map[plpoy + 1][plpox] != 1)
-        game->map->plpoy += 1;
-    if ((key == A || key == LEFT) && game->map->map[plpoy][plpox - 1] != 1)
-        game->map->plpox -= 1;
-    if ((key == D || key == RIGHT) && game->map->map[plpoy][plpox + 1] != 1)
-        game->map->plpox += 1;
-    move_player(game, plpox, plpoy);
-    return (0);
+	plpox = game->map->plpox;
+	plpoy = game->map->plpoy;
+	if ((key == W || key == UP) && game->map->map[plpoy - 1][plpox] != '1')
+		game->map->plpoy--;
+	if ((key == S || key == DOWN) && game->map->map[plpoy + 1][plpox] != '1')
+		game->map->plpoy++;
+	if ((key == A || key == LEFT) && game->map->map[plpoy][plpox - 1] != '1')
+		game->map->plpox--;
+	if ((key == D || key == RIGHT) && game->map->map[plpoy][plpox + 1] != '1')
+		game->map->plpox++;
+	if (key == ESC || key == Q)
+	{
+		ft_printf("------------------------------\n");
+		ft_printf(KRED "🚥 🚥 GAME EXITED 🚥 🚥\n" KNRM);
+		ft_printf("You didn't finish this lap 💔\n");
+		ft_printf("Go for another round on a\ndifferent circuit? 🤙\n");
+		ft_printf("------------------------------\n");
+		freeing(game);
+	}
+	move_player(game, plpox, plpoy);
+	return (0);
 }
 
-int xclick(t_game *game)
+void	move_player(t_game *game, int x, int y)
 {
-    freeing(game);
-    return (0);
+	int	*moves;
+
+	moves = ft_calloc(5, sizeof(int));
+	if (!moves)
+		malloc_error(4, game);
+	if (game->map->map[y][x] == 'P')
+		game->map->map[y][x] = '0';
+	if (game->map->map[y][x] == 'C')
+	{
+		game->map->map[y][x] = '0';
+		game->map->collcounter--;
+	}
+	if (x != game->map->plpox || y != game->map->plpoy)
+	{
+		ft_printf(KGRN "⏲ ⏲ YOUR CURRENT LAP TIME ⏲ ⏲\n");
+		ft_printf(KNRM "------------------------------\n");
+		ft_printf(KBLU "%d SECONDS\n\n" KNRM, game->moves++);
+	}
+	free(moves);
 }
 
-void player_pos(t_game *game)
+int	xklick(t_game *game)
 {
-    int i;
-    int j;
-
-    j = 0;
-    while (game->map->map[j])
-    {
-        i = 0;
-        while (game->map->map[j][i])
-        {
-            if (game->map->map[j][i] == 'P')
-            {
-                game->map->plpox = i;
-                game->map->plpoy = j;
-                return ;                
-            }
-            i++;
-        }
-        j++;
-    }
-    game_error(10, game);
-}
-
-void move_player(t_game *game, int x, int y)
-{
-    int *moves;
-    moves = malloc(sizeof(int) * 5);
-    if (!moves)
-        game_error(9, game);
-    if (x != game->map->plpox || y != game->map->plpoy)
-        printf("Moves: %d\n", game->moves++);
-    if (game->map->map[y][x] == 'P')
-    {
-        game->map->map[y][x] = '0';
-    }
-    if (game->map->map[y][x] == 'C')
-    {
-        game->map->map[y][x] = '0';
-        game->map->collcounter -= 1;
-    }
+	ft_printf("------------------------------\n");
+	ft_printf(KRED "🚥 🚥 GAME EXITED 🚥 🚥\n" KNRM);
+	ft_printf("You didn't finish this lap 💔\n");
+	ft_printf("Go for another round on a\ndifferent circuit? 🤙\n");
+	ft_printf("------------------------------\n");
+	freeing(game);
+	return (0);
 }
