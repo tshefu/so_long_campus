@@ -6,7 +6,7 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:09:55 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/18 12:27:59 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:13:35 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	move_player(t_game *game, int x, int y)
 	{
 		ft_printf(KGRN "⏲ ⏲ YOUR CURRENT LAP TIME ⏲ ⏲\n");
 		ft_printf(KNRM "------------------------------\n");
-		ft_printf(KBLU "%d SECONDS\n\n" KNRM, game->moves++);
+		ft_printf(KBLU "%d SECONDS\n\n" KNRM, game->map->moves++);
 	}
 	free(moves);
 }

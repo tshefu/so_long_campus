@@ -56,9 +56,8 @@ SRC = libft/ft_atoi.c \
       src/main.c \
       src/map_checker.c \
       src/player_checker.c \
-      src/more_checkers.c \
       src/errors.c \
-      src/more_errors.c \
+      src/errors_two.c \
       src/floodthemap.c \
       src/freeing.c \
       src/initialise_map.c \

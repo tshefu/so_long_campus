@@ -6,11 +6,46 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:07:45 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/16 19:25:06 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:28:21 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
+
+void	gnl_check(char **map, int i, t_game *game)
+{
+	if (!map[i])
+	{
+		i = 0;
+		while (map[i])
+		{
+			free(map[i]);
+			i++;
+		}
+		free(map);
+		map_error(9, game);
+	}
+}
+
+char	**remove_newline(char **map)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (map[j])
+	{
+		i = 0;
+		while (map[j][i])
+		{
+			if (map[j][i] == '\n')
+				map[j][i] = '\0';
+			i++;
+		}
+		j++;
+	}
+	return (map);
+}
 
 void	add_map_values_map(t_game *game, char **map, int i)
 {
@@ -73,24 +108,4 @@ int	count_lines(char *file, t_game *game)
 		map_error(8, game);
 	close(fd);
 	return (line_count);
-}
-
-char	**remove_newline(char **map)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	while (map[j])
-	{
-		i = 0;
-		while (map[j][i])
-		{
-			if (map[j][i] == '\n')
-				map[j][i] = '\0';
-			i++;
-		}
-		j++;
-	}
-	return (map);
 }

@@ -6,18 +6,34 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:12:06 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/16 19:28:52 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:25:20 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
+
+void	access_check_ber(char *ber_file)
+{
+	if (access(ber_file, F_OK | R_OK) == -1)
+		startup_error(2, NULL);
+}
+
+void	access_check_xpm(void)
+{
+	if (access("graphics/collectible.xpm", F_OK | R_OK) == -1
+		|| access("graphics/floor.xpm", F_OK | R_OK) == -1
+		|| access("graphics/goal.xpm", F_OK | R_OK) == -1
+		|| access("graphics/player.xpm", F_OK | R_OK) == -1
+		|| access("graphics/wall.xpm", F_OK | R_OK) == -1)
+		graphic_error(1, NULL);
+}
 
 void	add_map_values_struct(t_game *game, char *file)
 {
 	game->map->playercounter = 0;
 	game->map->exitcounter = 0;
 	game->map->collcounter = 0;
-	game->moves = 1;
+	game->map->moves = 1;
 	game->map->lines = count_lines(file, game);
 }
 
@@ -51,8 +67,8 @@ int	main(int argc, char **argv)
 		mlx_error(NULL);
 	display_image(game);
 	game->window = mlx_new_window(game->mlxptr,
-			(game->graphicpixels * game->map->width),
-			(game->graphicpixels * game->map->height), "RAWE CEEK");
+			(game->graphic->pixels * game->map->width),
+			(game->graphic->pixels * game->map->height), "RAWE CEEK");
 	mlx_loop_hook(game->mlxptr, display_frame, game);
 	mlx_hook(game->window, KeyPress, KeyPressMask, keypress, game);
 	mlx_hook(game->window, DestroyNotify, NoEventMask, xklick, game);

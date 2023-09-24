@@ -6,7 +6,7 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:41:55 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/18 12:31:22 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:14:53 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	display_image(t_game *game)
 			"graphics/player.xpm", &pixels, &pixels);
 	game->graphic->wall = mlx_xpm_file_to_image(game->mlxptr,
 			"graphics/wall.xpm", &pixels, &pixels);
-	game->graphicpixels = pixels;
+	game->graphic->pixels = pixels;
 	if (game->graphic->collectible == NULL
 		|| game->graphic->floor == NULL || game->graphic->goal == NULL
 		|| game->graphic->player == NULL || game->graphic->wall == NULL)
@@ -61,14 +61,14 @@ void	add_player(t_game *game)
 	if (game->map->collcounter != 0
 		|| game->map->map[game->map->plpoy][game->map->plpox] != 'E')
 		mlx_put_image_to_window(game->mlxptr, game->window,
-			game->graphic->player, game->map->plpox * game->graphicpixels,
-			game->map->plpoy * game->graphicpixels);
+			game->graphic->player, game->map->plpox * game->graphic->pixels,
+			game->map->plpoy * game->graphic->pixels);
 	if (game->map->collcounter == 0
 		&& game->map->map[game->map->plpoy][game->map->plpox] == 'E')
 	{
 		mlx_put_image_to_window(game->mlxptr, game->window,
-			game->graphic->player, game->map->plpox * game->graphicpixels,
-			game->map->plpoy * game->graphicpixels);
+			game->graphic->player, game->map->plpox * game->graphic->pixels,
+			game->map->plpoy * game->graphic->pixels);
 		win_game(game);
 	}
 }
@@ -95,18 +95,18 @@ void	add_image(t_game *game, char c, int x, int y)
 		if (c == '0')
 			mlx_put_image_to_window(game->mlxptr, game->window,
 				game->graphic->floor,
-				x * game->graphicpixels, y * game->graphicpixels);
+				x * game->graphic->pixels, y * game->graphic->pixels);
 		if (c == '1')
 			mlx_put_image_to_window(game->mlxptr,
 				game->window, game->graphic->wall,
-				x * game->graphicpixels, y * game->graphicpixels);
+				x * game->graphic->pixels, y * game->graphic->pixels);
 		if (c == 'C')
 			mlx_put_image_to_window(game->mlxptr, game->window,
 				game->graphic->collectible,
-				x * game->graphicpixels, y * game->graphicpixels);
+				x * game->graphic->pixels, y * game->graphic->pixels);
 		if (c == 'E')
 			mlx_put_image_to_window(game->mlxptr,
 				game->window, game->graphic->goal,
-				x * game->graphicpixels, y * game->graphicpixels);
+				x * game->graphic->pixels, y * game->graphic->pixels);
 	}
 }
