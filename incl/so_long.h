@@ -6,14 +6,13 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:23:13 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/18 17:21:18 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:13:04 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-//# include "../mlx_linux/mlx.h"
 # include "../libft/libft.h"
 
 # include <mlx.h>
@@ -62,6 +61,7 @@ typedef struct s_map
 	int		collcounter;
 	int		plpox;
 	int		plpoy;
+	int		moves;
 }	t_map;
 
 typedef struct s_graphic
@@ -71,14 +71,13 @@ typedef struct s_graphic
 	void	*floor;
 	void	*wall;
 	void	*goal;
+	int		pixels;
 }	t_graphic;
 
 typedef struct s_game
 {
 	void		*window;
 	void		*mlxptr;
-	int			moves;
-	int			graphicpixels;
 	t_map		*map;
 	t_graphic	*graphic;
 }	t_game;
