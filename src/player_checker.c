@@ -6,17 +6,17 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 22:33:42 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/18 12:29:41 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:38:06 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
-void	check_valid_characters(t_game *game)
+void	check_valid_characters(t_game *game, int fd)
 {
-	int	i;
-	int	j;
-	int	x;
+	int		j;
+	int		i;
+	char	pos;
 
 	j = 0;
 	while (j < game->map->height)
@@ -24,19 +24,17 @@ void	check_valid_characters(t_game *game)
 		i = 0;
 		while (i < game->map->width)
 		{
-			x = 0;
-			while (game->map->map[j][i] != "01CEP"[x])
-			{
-				if (!"01CEP"[x])
-					map_error(2, game);
-				x++;
-			}
-			count_characters("01CEP"[x], game);
+			pos = game->map->map[j][i];
+			if (pos == '0' || pos == '1' || pos == 'C'
+				|| pos == 'E' || pos == 'P')
+				count_characters(pos, game);
+			else
+				map_error(2, game, fd);
 			i++;
 		}
 		j++;
 	}
-	check_characters(game);
+	check_characters(game, fd);
 }
 
 void	count_characters(char c, t_game *game)
@@ -49,17 +47,17 @@ void	count_characters(char c, t_game *game)
 		game->map->collcounter++;
 }
 
-void	check_characters(t_game *game)
+void	check_characters(t_game *game, int fd)
 {
 	if (game->map->playercounter != 1)
-		map_error(3, game);
+		map_error(3, game, fd);
 	if (game->map->exitcounter != 1)
-		map_error(4, game);
+		map_error(4, game, fd);
 	if (game->map->collcounter < 1)
-		map_error(5, game);
+		map_error(5, game, fd);
 }
 
-void	find_player(t_game *game)
+void	find_player(t_game *game, int fd)
 {
 	int	i;
 	int	j;
@@ -80,5 +78,5 @@ void	find_player(t_game *game)
 		}
 		j++;
 	}
-	map_error(3, game);
+	map_error(3, game, fd);
 }

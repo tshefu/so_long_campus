@@ -6,7 +6,7 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:41:55 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/24 15:14:53 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/30 00:08:59 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,19 @@ void	display_image(t_game *game)
 
 	game->graphic = ft_calloc(1, sizeof(t_graphic));
 	if (!game->graphic)
-		malloc_error(5, game);
+		malloc_error(2, game);
 	game->graphic->collectible = mlx_xpm_file_to_image(game->mlxptr,
 			"graphics/collectible.xpm", &pixels, &pixels);
 	game->graphic->floor = mlx_xpm_file_to_image(game->mlxptr,
 			"graphics/floor.xpm", &pixels, &pixels);
-	game->graphic->goal = mlx_xpm_file_to_image(game->mlxptr,
-			"graphics/goal.xpm", &pixels, &pixels);
+	game->graphic->goal_off = mlx_xpm_file_to_image(game->mlxptr,
+			"graphics/goal_off.xpm", &pixels, &pixels);
 	game->graphic->player = mlx_xpm_file_to_image(game->mlxptr,
 			"graphics/player.xpm", &pixels, &pixels);
 	game->graphic->wall = mlx_xpm_file_to_image(game->mlxptr,
 			"graphics/wall.xpm", &pixels, &pixels);
 	game->graphic->pixels = pixels;
-	if (game->graphic->collectible == NULL
-		|| game->graphic->floor == NULL || game->graphic->goal == NULL
-		|| game->graphic->player == NULL || game->graphic->wall == NULL)
-		graphic_error(2, game);
+	access_check_images(game);
 }
 
 int	display_frame(t_game *game)
@@ -47,8 +44,8 @@ int	display_frame(t_game *game)
 		x = 0;
 		while (x < game->map->width)
 		{
-			add_player(game);
 			add_image(game, game->map->map[y][x], x, y);
+			add_player(game);
 			x++;
 		}
 		y ++;
@@ -75,17 +72,8 @@ void	add_player(t_game *game)
 
 void	win_game(t_game *game)
 {
-	long long int	timer;
-
-	if (game->map->map[game->map->plpoy][game->map->plpox] == 'E'
-		&& game->map->collcounter == 0)
-	{
-		timer = 0;
-		while (timer < 50000000)
-			timer++;
-		ft_printf("YOU WON THE RACE! 🏆\n🏎🏎🏎  CONGRATS 🏎🏎🏎\n");
-		freeing(game);
-	}
+	ft_printf("YOU WON THE RACE! 🏆\n🏎🏎🏎  CONGRATS 🏎🏎🏎\n");
+	freeing(game);
 }
 
 void	add_image(t_game *game, char c, int x, int y)
@@ -106,7 +94,7 @@ void	add_image(t_game *game, char c, int x, int y)
 				x * game->graphic->pixels, y * game->graphic->pixels);
 		if (c == 'E')
 			mlx_put_image_to_window(game->mlxptr,
-				game->window, game->graphic->goal,
+				game->window, game->graphic->goal_off,
 				x * game->graphic->pixels, y * game->graphic->pixels);
 	}
 }

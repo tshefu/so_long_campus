@@ -6,7 +6,7 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:51:00 by vschneid          #+#    #+#             */
-/*   Updated: 2023/08/26 19:30:36 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/29 23:58:11 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	free_graphic(t_game *game)
 			mlx_destroy_image(game->mlxptr, game->graphic->collectible);
 		if (game->graphic->floor)
 			mlx_destroy_image(game->mlxptr, game->graphic->floor);
-		if (game->graphic->goal)
-			mlx_destroy_image(game->mlxptr, game->graphic->goal);
+		if (game->graphic->goal_off)
+			mlx_destroy_image(game->mlxptr, game->graphic->goal_off);
 		if (game->graphic->player)
 			mlx_destroy_image(game->mlxptr, game->graphic->player);
 		if (game->graphic->wall)

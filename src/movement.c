@@ -6,7 +6,7 @@
 /*   By: vschneid <vschneid@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:09:55 by vschneid          #+#    #+#             */
-/*   Updated: 2023/09/24 15:13:35 by vschneid         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:34:57 by vschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ int	keypress(int key, t_game *game)
 
 void	move_player(t_game *game, int x, int y)
 {
-	int	*moves;
-
-	moves = ft_calloc(5, sizeof(int));
-	if (!moves)
-		malloc_error(4, game);
 	if (game->map->map[y][x] == 'P')
 		game->map->map[y][x] = '0';
 	if (game->map->map[y][x] == 'C')
@@ -60,7 +55,6 @@ void	move_player(t_game *game, int x, int y)
 		ft_printf(KNRM "------------------------------\n");
 		ft_printf(KBLU "%d SECONDS\n\n" KNRM, game->map->moves++);
 	}
-	free(moves);
 }
 
 int	xklick(t_game *game)
